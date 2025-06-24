@@ -28,7 +28,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto space-y-16">
             {/* Hero Section */}
             <div className="text-center space-y-6">
-              <h1 className="taco-banner text-taco-black">TACo MUSIC</h1>
+              <h1 className="taco-banner text-taco-black">Sound proof</h1>
               <p className="taco-body text-taco-dark-grey max-w-2xl mx-auto">
                 Decentralized music sharing with threshold access control encryption. 
                 Own your music, control access, preserve privacy.
