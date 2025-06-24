@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Wallet, Shield } from "lucide-react";
+import { Wallet, Shield, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 interface WalletConnectionProps {
@@ -19,6 +19,13 @@ export const WalletConnection = ({ onConnect }: WalletConnectionProps) => {
       setIsLoading(false);
     }
   };
+
+  const popularWallets = [
+    { name: "MetaMask", url: "https://metamask.io" },
+    { name: "Coinbase Wallet", url: "https://wallet.coinbase.com" },
+    { name: "Rabby", url: "https://rabby.io" },
+    { name: "Trust Wallet", url: "https://trustwallet.com" },
+  ];
 
   return (
     <Card className="w-full max-w-md border-2 border-taco-black bg-white">
@@ -56,22 +63,30 @@ export const WalletConnection = ({ onConnect }: WalletConnectionProps) => {
           ) : (
             <>
               <Wallet className="w-5 h-5 mr-3" />
-              <span className="taco-ui-text">CONNECT METAMASK</span>
+              <span className="taco-ui-text">CONNECT WALLET</span>
             </>
           )}
         </Button>
         
-        <p className="taco-ui-text text-taco-dark-grey text-center text-sm">
-          Don't have MetaMask?{" "}
-          <a 
-            href="https://metamask.io" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-taco-black font-bold hover:text-taco-neon transition-colors underline"
-          >
-            Download here
-          </a>
-        </p>
+        <div className="space-y-3">
+          <p className="taco-ui-text text-taco-dark-grey text-center text-sm">
+            Don't have a wallet? Choose from these popular options:
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            {popularWallets.map((wallet) => (
+              <a
+                key={wallet.name}
+                href={wallet.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 p-3 border border-taco-black bg-white hover:bg-taco-light-grey transition-colors text-sm"
+              >
+                <span className="taco-ui-text text-taco-black">{wallet.name}</span>
+                <ExternalLink className="w-3 h-3 text-taco-dark-grey" />
+              </a>
+            ))}
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

@@ -9,6 +9,7 @@ interface WalletAuthState {
   address: string;
   signer: ethers.providers.JsonRpcSigner | null;
   isLoading: boolean;
+  walletType: string | null;
 }
 
 export const useWalletAuth = () => {
@@ -17,14 +18,24 @@ export const useWalletAuth = () => {
     address: '',
     signer: null,
     isLoading: false,
+    walletType: null,
   });
   const { toast } = useToast();
+
+  const detectWalletType = () => {
+    if (window.ethereum?.isMetaMask) return 'MetaMask';
+    if (window.ethereum?.isCoinbaseWallet) return 'Coinbase Wallet';
+    if (window.ethereum?.isRabby) return 'Rabby';
+    if (window.ethereum?.isBraveWallet) return 'Brave Wallet';
+    if (window.ethereum) return 'Ethereum Wallet';
+    return null;
+  };
 
   const connectWallet = async () => {
     if (!window.ethereum) {
       toast({
-        title: "MetaMask not found",
-        description: "Please install MetaMask to continue.",
+        title: "No wallet detected",
+        description: "Please install an Ethereum wallet (MetaMask, Coinbase Wallet, etc.) to continue.",
         variant: "destructive",
       });
       return;
@@ -37,6 +48,7 @@ export const useWalletAuth = () => {
       const accounts = await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
       const address = accounts[0];
+      const walletType = detectWalletType();
 
       // Verify ownership by signing a message
       const message = `Sign this message to verify wallet ownership: ${Date.now()}`;
@@ -65,11 +77,12 @@ export const useWalletAuth = () => {
         address,
         signer,
         isLoading: false,
+        walletType,
       });
 
       toast({
         title: "Wallet connected",
-        description: "Successfully connected to your wallet.",
+        description: `Successfully connected to your ${walletType || 'wallet'}.`,
       });
 
     } catch (error) {
@@ -89,6 +102,7 @@ export const useWalletAuth = () => {
       address: '',
       signer: null,
       isLoading: false,
+      walletType: null,
     });
   };
 
