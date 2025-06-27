@@ -28,7 +28,7 @@ interface PlaybackContextType {
   duration: number;
   volume: number;
   isLoading: boolean;
-  playTrack: (track: Track, cid?: string) => void;
+  playTrack: (track: Track, cid?: string, walletSigner?: ethers.providers.JsonRpcSigner, siweMessage?: string) => void;
   pauseTrack: () => void;
   resumeTrack: () => void;
   seekTo: (time: number) => void;
@@ -57,7 +57,7 @@ export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const audioPlayer = useAudioPlayer();
 
-  const playTrack = async (track: Track, cid?: string) => {
+  const playTrack = async (track: Track, cid?: string, walletSigner?: ethers.providers.JsonRpcSigner, siweMessage?: string) => {
     console.log("Playing track:", track.title);
     setCurrentTrack(track);
     
@@ -84,16 +84,16 @@ export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
         if (isEncrypted) {
           console.log("Encrypted track detected, attempting TACo decryption...");
           
-          // Check if wallet is connected
-          if (!window.ethereum) {
-            toast.error("Wallet connection required", {
-              description: "Please connect your wallet to decrypt this track"
+          // Check if we have the required wallet auth data
+          if (!walletSigner || !siweMessage) {
+            toast.error("Wallet authentication required", {
+              description: "Please reconnect your wallet to decrypt this track"
             });
             return;
           }
 
           try {
-            console.log('🎵 Starting track decryption process...');
+            console.log('🎵 Starting track decryption process with stored SIWE...');
             
             // Initialize TACo
             await initialize();
@@ -135,8 +135,7 @@ export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
               }
             }
 
-            const signer = web3Provider.getSigner();
-            console.log('✅ Wallet connected and switched to Amoy testnet');
+            console.log('✅ Using stored wallet signer and SIWE message');
 
             console.log("Fetching encrypted file from Lighthouse...");
             
@@ -157,17 +156,17 @@ export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
             const conditionContext = conditions.context.ConditionContext.fromMessageKit(messageKit);
             console.log('✅ Condition context created');
             
-            // Add auth provider
-            const authProvider = new EIP4361AuthProvider(web3Provider, signer);
+            // Add auth provider using the stored signer and SIWE message
+            const authProvider = new EIP4361AuthProvider(web3Provider, walletSigner);
             conditionContext.addAuthProvider(USER_ADDRESS_PARAM_DEFAULT, authProvider);
-            console.log('✅ Auth provider added to condition context');
+            console.log('✅ Auth provider added to condition context using stored credentials');
 
             toast.info("Decrypting track...", {
-              description: "Please wait while we decrypt your track"
+              description: "Using your stored wallet signature"
             });
 
             // Decrypt the data using TACo
-            console.log("🔓 Starting decryption...");
+            console.log("🔓 Starting decryption with stored SIWE...");
             const decryptedData = await decrypt(
               amoyProvider,
               domains.DEVNET,

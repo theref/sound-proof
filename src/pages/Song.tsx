@@ -8,6 +8,7 @@ import { Play, Pause, User, Clock, ArrowLeft, Shield, Lock } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { usePlayback } from "@/contexts/PlaybackContext";
+import { useWalletAuth } from "@/hooks/useWalletAuth";
 import { AddressDisplay } from "@/components/AddressDisplay";
 
 interface Track {
@@ -24,6 +25,7 @@ const Song = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { currentTrack, isPlaying, playTrack, pauseTrack, resumeTrack, isLoading: playerLoading } = usePlayback();
+  const { signer, siweMessage } = useWalletAuth();
   const [track, setTrack] = useState<Track | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -87,7 +89,7 @@ const Song = () => {
         cid: track.cid,
       };
       
-      await playTrack(trackData, track.cid);
+      await playTrack(trackData, track.cid, signer, siweMessage);
     }
   };
 

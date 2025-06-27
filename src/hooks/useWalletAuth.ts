@@ -10,6 +10,7 @@ interface WalletAuthState {
   signer: ethers.providers.JsonRpcSigner | null;
   isLoading: boolean;
   walletType: string | null;
+  siweMessage: string | null;
 }
 
 export const useWalletAuth = () => {
@@ -19,6 +20,7 @@ export const useWalletAuth = () => {
     signer: null,
     isLoading: false,
     walletType: null,
+    siweMessage: null,
   });
   const { toast } = useToast();
 
@@ -29,6 +31,25 @@ export const useWalletAuth = () => {
     if (window.ethereum?.isBraveWallet) return 'Brave Wallet';
     if (window.ethereum) return 'Ethereum Wallet';
     return null;
+  };
+
+  const generateSiweMessage = (address: string) => {
+    const domain = window.location.host;
+    const origin = window.location.origin;
+    const statement = "Sign in to TACo Music Platform";
+    const nonce = Math.random().toString(36).substring(2, 15);
+    const issuedAt = new Date().toISOString();
+    
+    return `${domain} wants you to sign in with your Ethereum account:
+${address}
+
+${statement}
+
+URI: ${origin}
+Version: 1
+Chain ID: 80002
+Nonce: ${nonce}
+Issued At: ${issuedAt}`;
   };
 
   const connectWallet = async () => {
@@ -50,9 +71,13 @@ export const useWalletAuth = () => {
       const address = accounts[0];
       const walletType = detectWalletType();
 
-      // Verify ownership by signing a message
-      const message = `Sign this message to verify wallet ownership: ${Date.now()}`;
-      await signer.signMessage(message);
+      // Generate SIWE message for future use
+      const siweMessage = generateSiweMessage(address);
+      
+      // Sign the SIWE message once during connection
+      console.log("Signing SIWE message for future TACo operations...");
+      await signer.signMessage(siweMessage);
+      console.log("✅ SIWE message signed and stored");
 
       // Create or get user in Supabase
       const { data: existingUser } = await supabase
@@ -78,6 +103,7 @@ export const useWalletAuth = () => {
         signer,
         isLoading: false,
         walletType,
+        siweMessage,
       });
 
       toast({
@@ -103,6 +129,7 @@ export const useWalletAuth = () => {
       signer: null,
       isLoading: false,
       walletType: null,
+      siweMessage: null,
     });
   };
 

@@ -15,13 +15,17 @@ const Index = () => {
   const {
     isConnected,
     address,
+    signer,
+    siweMessage,
     connectWallet,
     disconnectWallet,
     isLoading
   } = useWalletAuth();
+
   const handleWalletConnect = async () => {
     await connectWallet();
   };
+
   if (!isConnected) {
     return <div className="min-h-screen bg-white grid-background">
         <div className="container mx-auto px-4 py-16">
@@ -160,18 +164,28 @@ const Index = () => {
         </div>
       </div>;
   }
-  return <PlaybackProvider>
+  return (
+    <PlaybackProvider>
       <div className="min-h-screen bg-white grid-background text-black pb-24">
-        <Navigation activeView={activeView} onViewChange={setActiveView} userAddress={address} onDisconnect={disconnectWallet} />
+        <Navigation 
+          activeView={activeView} 
+          onViewChange={setActiveView} 
+          userAddress={address} 
+          onDisconnect={disconnectWallet}
+          walletSigner={signer}
+          siweMessage={siweMessage}
+        />
         
         <main className="container mx-auto px-4 py-8">
-          {activeView === "feed" && <MusicFeed />}
+          {activeView === "feed" && <MusicFeed walletSigner={signer} siweMessage={siweMessage} />}
           {activeView === "upload" && <UploadTrack userAddress={address} />}
           {activeView === "profile" && <UserProfile userAddress={address} />}
         </main>
         
         <PlayerBar />
       </div>
-    </PlaybackProvider>;
+    </PlaybackProvider>
+  );
 };
+
 export default Index;
