@@ -21,6 +21,8 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  console.log('🎵 App component rendering...')
+  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -32,7 +34,6 @@ const App = () => {
               <Route path="/profile/:address" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-            <PlayerBar />
           </BrowserRouter>
         </PlaybackProvider>
         <Toaster />

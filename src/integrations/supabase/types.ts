@@ -46,19 +46,46 @@ export type Database = {
       }
       users: {
         Row: {
+          bio: string | null
           created_at: string
-          display_name: string | null
+          display_name: string
+          fid: number
+          follower_count: number | null
+          following_count: number | null
           id: string
+          pfp_url: string | null
+          updated_at: string
+          username: string
+          verified_addresses: Json | null
+          wallet_address: string | null
         }
         Insert: {
+          bio?: string | null
           created_at?: string
-          display_name?: string | null
+          display_name: string
+          fid: number
+          follower_count?: number | null
+          following_count?: number | null
           id: string
+          pfp_url?: string | null
+          updated_at?: string
+          username: string
+          verified_addresses?: Json | null
+          wallet_address?: string | null
         }
         Update: {
+          bio?: string | null
           created_at?: string
-          display_name?: string | null
+          display_name?: string
+          fid?: number
+          follower_count?: number | null
+          following_count?: number | null
           id?: string
+          pfp_url?: string | null
+          updated_at?: string
+          username?: string
+          verified_addresses?: Json | null
+          wallet_address?: string | null
         }
         Relationships: []
       }

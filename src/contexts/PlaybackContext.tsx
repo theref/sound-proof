@@ -2,23 +2,18 @@
 import { createContext, useState, ReactNode, useContext } from "react";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { getFileFromLighthouse } from "@/services/lighthouseService";
-import { supabase } from "@/integrations/supabase/client";
+import { trackStorage, type StoredTrack } from '@/utils/localStorage';
 import { toast } from "sonner";
 import { conditions, decrypt, domains, initialize, ThresholdMessageKit } from '@nucypher/taco';
 import { EIP4361AuthProvider, USER_ADDRESS_PARAM_DEFAULT } from '@nucypher/taco-auth';
 import { ethers } from 'ethers';
+import { useFarcasterAuth } from '@/hooks/useFarcasterAuth';
 
-interface Track {
-  id: string;
-  title: string;
-  artist: string;
-  duration: string;
-  uploadedAt: string;
-  accessCondition: string;
-  isEncrypted: boolean;
-  canPlay: boolean;
-  cid?: string;
-  accessRule?: any;
+// Use StoredTrack from localStorage utils
+interface Track extends Omit<StoredTrack, 'duration'> {
+  duration: string; // Keep as string for display compatibility
+  accessCondition: string; // Legacy field for compatibility
+  canPlay: boolean; // Runtime property
 }
 
 interface PlaybackContextType {
@@ -56,6 +51,7 @@ interface PlaybackProviderProps {
 export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const audioPlayer = useAudioPlayer();
+  const { user, verifiedAddress, signer } = useFarcasterAuth();
 
   const playTrack = async (track: Track, cid?: string) => {
     console.log("Playing track:", track.title);
@@ -66,28 +62,19 @@ export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
       try {
         console.log("Fetching audio file for CID:", trackCid);
         
-        // Check if this is an encrypted track by looking at access_rule
-        const { data: trackData } = await supabase
-          .from('tracks')
-          .select('access_rule')
-          .eq('id', track.id)
-          .single();
-
-        // Safe type checking for access_rule
-        const accessRule = trackData?.access_rule;
-        const isEncrypted = accessRule && 
-          typeof accessRule === 'object' && 
-          accessRule !== null && 
-          'type' in accessRule && 
-          accessRule.type !== 'public';
+        // Check if this is an encrypted track from the track data
+        const isEncrypted = track.isEncrypted;
+        
+        // Increment play count
+        trackStorage.incrementPlayCount(track.id);
 
         if (isEncrypted) {
           console.log("Encrypted track detected, attempting TACo decryption...");
           
-          // Check if wallet is connected
-          if (!window.ethereum) {
-            toast.error("Wallet connection required", {
-              description: "Please connect your wallet to decrypt this track"
+          // Check if user has Farcaster verified address and signer
+          if (!user || !verifiedAddress || !signer) {
+            toast.error("Farcaster authentication required", {
+              description: "Please sign in with Farcaster to decrypt this track"
             });
             return;
           }
@@ -108,34 +95,10 @@ export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
               }
             );
 
-            // Get the connected wallet provider and ensure we're on Amoy
-            const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
-            
-            // Switch to Amoy network
-            try {
-              await web3Provider.send("wallet_switchEthereumChain", [
-                { chainId: "0x13882" } // 80002 in hex for Amoy
-              ]);
-            } catch (switchError: any) {
-              // If the chain is not added, add it
-              if (switchError.code === 4902) {
-                await web3Provider.send("wallet_addEthereumChain", [{
-                  chainId: "0x13882",
-                  chainName: "Polygon Amoy Testnet",
-                  nativeCurrency: {
-                    name: "MATIC",
-                    symbol: "MATIC",
-                    decimals: 18
-                  },
-                  rpcUrls: ["https://rpc-amoy.polygon.technology"],
-                  blockExplorerUrls: ["https://amoy.polygonscan.com/"]
-                }]);
-              } else {
-                throw switchError;
-              }
-            }
-
-            const signer = web3Provider.getSigner();
+            // Use the Farcaster-authenticated signer directly
+            // The signer is already available from Farcaster auth
+            console.log('✅ Using Farcaster authenticated signer for TACo decryption');
+            console.log('Verified address from Farcaster:', verifiedAddress);
             console.log('✅ Wallet connected and switched to Amoy testnet');
 
             console.log("Fetching encrypted file from Lighthouse...");
@@ -157,10 +120,12 @@ export const PlaybackProvider = ({ children }: PlaybackProviderProps) => {
             const conditionContext = conditions.context.ConditionContext.fromMessageKit(messageKit);
             console.log('✅ Condition context created');
             
-            // Add auth provider
-            const authProvider = new EIP4361AuthProvider(web3Provider, signer);
+            // Add auth provider using Farcaster-authenticated signer
+            // We need to create a Web3Provider from the existing signer for TACo compatibility
+            const signerProvider = signer.provider;
+            const authProvider = new EIP4361AuthProvider(signerProvider as ethers.providers.Web3Provider, signer);
             conditionContext.addAuthProvider(USER_ADDRESS_PARAM_DEFAULT, authProvider);
-            console.log('✅ Auth provider added to condition context');
+            console.log('✅ Auth provider added to condition context using Farcaster signer');
 
             toast.info("Decrypting track...", {
               description: "Please wait while we decrypt your track"

@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
-import { AddressDisplay } from "@/components/AddressDisplay";
 
 export const PlayerBar = () => {
   const {
@@ -50,11 +49,9 @@ export const PlayerBar = () => {
         {/* Track Info */}
         <div className="flex-shrink-0 min-w-0 w-64">
           <h4 className="text-black font-bold truncate taco-body">{currentTrack.title}</h4>
-          <AddressDisplay 
-            address={currentTrack.artist} 
-            className="taco-ui-text text-gray-600 truncate cursor-pointer hover:text-black transition-colors"
-            clickable={true}
-          />
+          <p className="taco-ui-text text-taco-dark-grey truncate">
+            {currentTrack.artist}
+          </p>
         </div>
 
         {/* Playback Controls */}
