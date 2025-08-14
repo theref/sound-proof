@@ -25,12 +25,8 @@ export default {
 				'sans': ['IBM Plex Mono', 'monospace'],
 			},
 			colors: {
-				// TACo Brand Colors
-				'taco-black': '#000000',
-				'taco-white': '#FFFFFF',
-				'taco-neon': '#96FF5E',
-				'taco-light-grey': '#F4F4F4',
-				'taco-dark-grey': '#909090',
+				// Minimal Color Scheme
+				'orange': '#FF6600',
 				
 				// Design system
 				border: 'hsl(var(--border))',
