@@ -20,42 +20,42 @@ export const FarcasterConnection = ({ onConnect }: FarcasterConnectionProps) => 
   };
 
   return (
-    <Card className="w-full max-w-md border-2 border-taco-black bg-white">
-      <CardHeader className="text-center border-b-2 border-taco-black">
-        <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-          <User className="w-8 h-8 text-white" />
+    <Card className="w-full max-w-md border border-border bg-card">
+      <CardHeader className="text-center border-b border-border">
+        <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+          <User className="w-8 h-8 text-accent-foreground" />
         </div>
-        <CardTitle className="taco-subheading text-taco-black mb-2">
+        <CardTitle className="font-mono font-bold text-card-foreground mb-2 text-xl">
           Sign In with Farcaster
         </CardTitle>
-        <p className="taco-ui-text text-taco-dark-grey">
+        <p className="font-mono text-muted-foreground">
           Connect with your Farcaster identity to discover music through your social network
         </p>
       </CardHeader>
       
       <CardContent className="p-6 space-y-6">
         <div className="space-y-4">
-          <div className="flex items-center gap-3 p-3 border-2 border-taco-black bg-taco-light-grey">
-            <User className="w-5 h-5 text-taco-black flex-shrink-0" />
+          <div className="flex items-center gap-3 p-3 border border-border bg-secondary">
+            <User className="w-5 h-5 text-accent flex-shrink-0" />
             <div>
-              <p className="taco-ui-text font-bold text-taco-black text-sm">Social Discovery</p>
-              <p className="taco-ui-text text-taco-dark-grey text-xs">Find music through your Farcaster network</p>
+              <p className="font-mono font-bold text-secondary-foreground text-sm">Social Discovery</p>
+              <p className="font-mono text-muted-foreground text-xs">Find music through your Farcaster network</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-3 border-2 border-taco-black bg-taco-light-grey">
-            <Shield className="w-5 h-5 text-taco-black flex-shrink-0" />
+          <div className="flex items-center gap-3 p-3 border border-border bg-secondary">
+            <Shield className="w-5 h-5 text-accent flex-shrink-0" />
             <div>
-              <p className="taco-ui-text font-bold text-taco-black text-sm">Secure & Private</p>
-              <p className="taco-ui-text text-taco-dark-grey text-xs">Your Farcaster identity verifies ownership</p>
+              <p className="font-mono font-bold text-secondary-foreground text-sm">Secure & Private</p>
+              <p className="font-mono text-muted-foreground text-xs">Your Farcaster identity verifies ownership</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-3 border-2 border-taco-black bg-taco-light-grey">
-            <Zap className="w-5 h-5 text-taco-black flex-shrink-0" />
+          <div className="flex items-center gap-3 p-3 border border-border bg-secondary">
+            <Zap className="w-5 h-5 text-accent flex-shrink-0" />
             <div>
-              <p className="taco-ui-text font-bold text-taco-black text-sm">Native Integration</p>
-              <p className="taco-ui-text text-taco-dark-grey text-xs">Share playlists as Farcaster casts</p>
+              <p className="font-mono font-bold text-secondary-foreground text-sm">Native Integration</p>
+              <p className="font-mono text-muted-foreground text-xs">Share playlists as Farcaster casts</p>
             </div>
           </div>
         </div>
@@ -63,28 +63,28 @@ export const FarcasterConnection = ({ onConnect }: FarcasterConnectionProps) => 
         <Button 
           onClick={handleConnect}
           disabled={isLoading}
-          className="w-full taco-button py-4 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 border-none"
+          className="w-full font-mono font-bold py-4 text-lg bg-accent text-accent-foreground hover:bg-accent/90"
         >
           {isLoading ? (
             <>
               <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin mr-3" />
-              <span className="taco-ui-text text-white">CONNECTING...</span>
+              CONNECTING...
             </>
           ) : (
             <>
               <User className="w-5 h-5 mr-3" />
-              <span className="taco-ui-text text-white">SIGN IN WITH FARCASTER</span>
+              SIGN IN WITH FARCASTER
             </>
           )}
         </Button>
         
-        <p className="taco-ui-text text-taco-dark-grey text-center text-sm">
+        <p className="font-mono text-muted-foreground text-center text-sm">
           New to Farcaster?{" "}
           <a 
             href="https://warpcast.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-purple-600 font-bold hover:text-purple-700 transition-colors underline"
+            className="text-accent font-bold hover:text-accent/80 transition-colors underline"
           >
             Join here
           </a>

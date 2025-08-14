@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Music, Upload, User, LogOut, ExternalLink } from "lucide-react";
 import { useFarcasterAuth } from "@/hooks/useFarcasterAuth";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface NavigationSimpleProps {
   activeView: "feed" | "upload" | "profile";
@@ -17,15 +18,15 @@ export const NavigationSimple = ({
   const { user, isConnected } = useFarcasterAuth();
 
   return (
-    <nav className="border-b-2 border-taco-black bg-white sticky top-0 z-50">
+    <nav className="border-b border-border bg-background sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
-              <Music className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+              <Music className="w-5 h-5 text-accent-foreground" />
             </div>
-            <h1 className="taco-subheading text-taco-black">SoundProof</h1>
+            <h1 className="font-mono font-bold text-foreground text-lg">SoundProof</h1>
           </div>
           
           {/* Navigation */}
@@ -35,11 +36,7 @@ export const NavigationSimple = ({
                 variant={activeView === "feed" ? "default" : "ghost"} 
                 size="sm" 
                 onClick={() => onViewChange("feed")}
-                className={`taco-ui-text ${
-                  activeView === "feed" 
-                    ? "bg-purple-600 text-white hover:bg-purple-700" 
-                    : "hover:bg-taco-light-grey"
-                }`}
+                className="font-mono"
               >
                 <Music className="w-4 h-4 mr-2" />
                 Feed
@@ -49,11 +46,7 @@ export const NavigationSimple = ({
                 variant={activeView === "upload" ? "default" : "ghost"} 
                 size="sm" 
                 onClick={() => onViewChange("upload")}
-                className={`taco-ui-text ${
-                  activeView === "upload" 
-                    ? "bg-purple-600 text-white hover:bg-purple-700" 
-                    : "hover:bg-taco-light-grey"
-                }`}
+                className="font-mono"
               >
                 <Upload className="w-4 h-4 mr-2" />
                 Upload
@@ -63,11 +56,7 @@ export const NavigationSimple = ({
                 variant={activeView === "profile" ? "default" : "ghost"} 
                 size="sm" 
                 onClick={() => onViewChange("profile")}
-                className={`taco-ui-text ${
-                  activeView === "profile" 
-                    ? "bg-purple-600 text-white hover:bg-purple-700" 
-                    : "hover:bg-taco-light-grey"
-                }`}
+                className="font-mono"
               >
                 <User className="w-4 h-4 mr-2" />
                 Profile
@@ -84,26 +73,27 @@ export const NavigationSimple = ({
                   <img
                     src={user.pfp.url}
                     alt={user.displayName}
-                    className="w-8 h-8 rounded-full border-2 border-taco-black"
+                    className="w-8 h-8 rounded-full border border-border"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
                     }}
                   />
                 )}
-                <div className="text-sm">
-                  <div className="font-bold text-taco-black">{user.displayName}</div>
-                  <div className="text-taco-dark-grey">@{user.username}</div>
+                <div className="text-sm font-mono">
+                  <div className="font-bold text-foreground">{user.displayName}</div>
+                  <div className="text-muted-foreground">@{user.username}</div>
                 </div>
               </div>
 
               {/* Actions */}
               <div className="flex items-center gap-2">
+                <ThemeToggle />
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => window.open(`https://warpcast.com/${user.username}`, '_blank')}
-                  className="border-2 border-taco-black"
+                  className="font-mono"
                 >
                   <ExternalLink className="w-4 h-4" />
                 </Button>
@@ -112,7 +102,7 @@ export const NavigationSimple = ({
                   variant="outline"
                   size="sm"
                   onClick={onDisconnect}
-                  className="border-2 border-taco-black text-red-600 hover:bg-red-50"
+                  className="font-mono text-destructive hover:bg-destructive/10"
                 >
                   <LogOut className="w-4 h-4" />
                 </Button>
@@ -120,7 +110,8 @@ export const NavigationSimple = ({
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <span className="text-sm text-taco-dark-grey">Not signed in</span>
+              <ThemeToggle />
+              <span className="text-sm font-mono text-muted-foreground">Not signed in</span>
             </div>
           )}
         </div>

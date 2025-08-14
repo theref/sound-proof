@@ -12,14 +12,7 @@
 
 @layer base {
   :root {
-    /* TACo Brand Colors */
-    --taco-black: #000000;
-    --taco-white: #FFFFFF;
-    --taco-neon-green: #96FF5E;
-    --taco-light-grey: #F4F4F4;
-    --taco-dark-grey: #909090;
-    
-    /* Design system mapping */
+    /* Minimal Color Scheme - Light Mode */
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
 
@@ -32,21 +25,22 @@
     --primary: 0 0% 0%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 95.8%;
+    --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 0%;
 
-    --muted: 0 0% 95.8%;
-    --muted-foreground: 0 0% 56.5%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 84 100% 67%;
-    --accent-foreground: 0 0% 0%;
+    /* Vibrant Orange Accent */
+    --accent: 24 100% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 0%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 24 100% 50%;
 
     --radius: 0.5rem;
 
@@ -54,49 +48,51 @@
     --sidebar-foreground: 0 0% 15%;
     --sidebar-primary: 0 0% 0%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 95.8%;
+    --sidebar-accent: 0 0% 96%;
     --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 0 0% 89.8%;
-    --sidebar-ring: 0 0% 0%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 24 100% 50%;
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    /* Minimal Color Scheme - Dark Mode */
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 3%;
 
-    --secondary: 0 0% 5%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 8%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 5%;
-    --muted-foreground: 0 0% 56.5%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 84 100% 67%;
-    --accent-foreground: 0 0% 0%;
+    /* Vibrant Orange Accent */
+    --accent: 24 100% 50%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 10%;
-    --input: 0 0% 10%;
-    --ring: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 24 100% 50%;
 
-    --sidebar-background: 0 0% 2%;
+    --sidebar-background: 0 0% 1%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 0 0% 5%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 10%;
-    --sidebar-ring: 0 0% 100%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 0 0% 3%;
+    --sidebar-accent: 0 0% 8%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 24 100% 50%;
   }
 }
 
@@ -160,17 +156,17 @@
     letter-spacing: 0.1em;
   }
 
-  /* Neon green accent utility */
-  .text-neon {
-    color: #96FF5E;
+  /* Vibrant orange accent utility */
+  .text-accent {
+    color: hsl(24 100% 50%);
   }
 
-  .bg-neon {
-    background-color: #96FF5E;
+  .bg-accent {
+    background-color: hsl(24 100% 50%);
   }
 
-  .border-neon {
-    border-color: #96FF5E;
+  .border-accent {
+    border-color: hsl(24 100% 50%);
   }
 
   /* Grid background pattern like in the image */
@@ -190,17 +186,17 @@
   }
 
   .taco-button:hover {
-    @apply bg-neon text-black border-neon;
+    @apply bg-accent text-white border-accent;
   }
 
   .taco-button-accent {
-    @apply bg-neon text-black border-2 border-neon font-bold uppercase tracking-wider;
+    @apply bg-accent text-white border-2 border-accent font-bold uppercase tracking-wider;
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 700;
     transition: all 0.2s ease;
   }
 
   .taco-button-accent:hover {
-    @apply bg-black text-neon;
+    @apply bg-primary text-accent;
   }
 }

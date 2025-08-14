@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PlaybackProvider } from "@/contexts/PlaybackContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { PlayerBar } from "@/components/PlayerBar";
 import Index from "./pages/Index";
 import Song from "./pages/Song";
@@ -25,20 +26,22 @@ const App = () => {
   
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <PlaybackProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/song/:id" element={<Song />} />
-              <Route path="/profile/:address" element={<Profile />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </PlaybackProvider>
-        <Toaster />
-        <Sonner />
-      </TooltipProvider>
+      <ThemeProvider>
+        <TooltipProvider>
+          <PlaybackProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/song/:id" element={<Song />} />
+                <Route path="/profile/:address" element={<Profile />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </PlaybackProvider>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
