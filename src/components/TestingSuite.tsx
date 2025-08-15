@@ -91,7 +91,7 @@ export const TestingSuite = () => {
         const testUser = await client.getUserByUsername('dwr.eth');
         
         if (testUser) {
-          updateTest('farcaster-lookup', 'passed', `Found user: ${testUser.displayName} (FID: ${testUser.fid})`, testUser);
+          updateTest('farcaster-lookup', 'passed', `Found user: ${testUser.displayName} (fid: ${testUser.fid})`, testUser);
         } else {
           updateTest('farcaster-lookup', 'failed', 'Could not find test user');
         }
@@ -182,7 +182,7 @@ export const TestingSuite = () => {
         updateTest('auth-storage', 'failed', 'User data storage mismatch');
       }
     } else {
-      updateTest('auth-state', 'failed', 'Not authenticated - Click "SIGN IN WITH FARCASTER" on main page first');
+      updateTest('auth-state', 'failed', 'Not authenticated - Click "sign in with farcaster" on main page first');
     }
   };
 
@@ -230,7 +230,7 @@ export const TestingSuite = () => {
 
   const getStatusIcon = (status: TestStatus) => {
     switch (status) {
-      case 'passed': return <CheckCircle className="w-4 h-4 text-green-600" />;
+      case 'passed': return <CheckCircle className="w-4 h-4 text-brand-orange-500" />;
       case 'failed': return <XCircle className="w-4 h-4 text-red-600" />;
       case 'running': return <AlertCircle className="w-4 h-4 text-yellow-600 animate-pulse" />;
       default: return <AlertCircle className="w-4 h-4 text-gray-400" />;
@@ -295,7 +295,7 @@ export const TestingSuite = () => {
             <Button 
               onClick={runAllTests} 
               disabled={isRunning}
-              className="taco-button bg-purple-600 hover:bg-purple-700"
+              className="taco-button bg-brand-orange-500 hover:bg-brand-orange-600"
             >
               {isRunning ? 'Running Tests...' : 'Run All Tests'}
             </Button>
@@ -371,7 +371,7 @@ export const TestingSuite = () => {
               <div><strong>Current URL:</strong> {window.location.href}</div>
               <div><strong>Timestamp:</strong> {new Date().toISOString()}</div>
               {user && (
-                <div><strong>Authenticated User:</strong> @{user.username} (FID: {user.fid})</div>
+                <div><strong>Authenticated User:</strong> @{user.username} (fid: {user.fid})</div>
               )}
             </CardContent>
           </Card>

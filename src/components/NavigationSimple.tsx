@@ -22,7 +22,7 @@ export const NavigationSimple = ({
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 rounded-full flex items-center justify-center">
               <Music className="w-5 h-5 text-white" />
             </div>
             <h1 className="taco-subheading text-taco-black">SoundProof</h1>
@@ -37,8 +37,8 @@ export const NavigationSimple = ({
                 onClick={() => onViewChange("feed")}
                 className={`taco-ui-text ${
                   activeView === "feed" 
-                    ? "bg-purple-600 text-white hover:bg-purple-700" 
-                    : "hover:bg-taco-light-grey"
+                    ? "bg-brand-orange-500 text-white hover:bg-brand-orange-600" 
+                    : "hover:bg-brand-orange-50 hover:text-brand-orange-600"
                 }`}
               >
                 <Music className="w-4 h-4 mr-2" />
@@ -51,8 +51,8 @@ export const NavigationSimple = ({
                 onClick={() => onViewChange("upload")}
                 className={`taco-ui-text ${
                   activeView === "upload" 
-                    ? "bg-purple-600 text-white hover:bg-purple-700" 
-                    : "hover:bg-taco-light-grey"
+                    ? "bg-brand-orange-500 text-white hover:bg-brand-orange-600" 
+                    : "hover:bg-brand-orange-50 hover:text-brand-orange-600"
                 }`}
               >
                 <Upload className="w-4 h-4 mr-2" />
@@ -65,8 +65,8 @@ export const NavigationSimple = ({
                 onClick={() => onViewChange("profile")}
                 className={`taco-ui-text ${
                   activeView === "profile" 
-                    ? "bg-purple-600 text-white hover:bg-purple-700" 
-                    : "hover:bg-taco-light-grey"
+                    ? "bg-brand-orange-500 text-white hover:bg-brand-orange-600" 
+                    : "hover:bg-brand-orange-50 hover:text-brand-orange-600"
                 }`}
               >
                 <User className="w-4 h-4 mr-2" />
@@ -103,7 +103,7 @@ export const NavigationSimple = ({
                   variant="outline"
                   size="sm"
                   onClick={() => window.open(`https://warpcast.com/${user.username}`, '_blank')}
-                  className="border-2 border-taco-black"
+                  className="border-2 border-taco-black hover:bg-brand-orange-50 hover:border-brand-orange-500"
                 >
                   <ExternalLink className="w-4 h-4" />
                 </Button>

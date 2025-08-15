@@ -102,8 +102,8 @@ export const UserProfile = ({ userAddress }: UserProfileProps) => {
 
   const formatAccessCondition = (accessRule: AccessRule): string => {
     if (accessRule.type === "public") return "Public";
-    if (accessRule.type === "erc20") return `ERC20 > ${accessRule.minBalance}`;
-    if (accessRule.type === "nft") return "NFT Holder";
+    if (accessRule.type === "erc20") return `erc20 > ${accessRule.minBalance}`;
+    if (accessRule.type === "nft") return "nft holder";
     return "Unknown";
   };
 
@@ -137,11 +137,11 @@ export const UserProfile = ({ userAddress }: UserProfileProps) => {
               <div className="flex items-center gap-6 taco-ui-text text-taco-dark-grey">
                 <div className="flex items-center gap-2">
                   <Music className="w-4 h-4" />
-                  <span>{userTracks.length} TRACKS</span>
+                  <span>{userTracks.length} tracks</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Shield className="w-4 h-4" />
-                  <span>VERIFIED WALLET</span>
+                  <span>verified wallet</span>
                 </div>
               </div>
             </div>
@@ -154,7 +154,7 @@ export const UserProfile = ({ userAddress }: UserProfileProps) => {
           <div className="w-8 h-8 bg-taco-black rounded-full flex items-center justify-center">
             <Music className="w-5 h-5 text-white" />
           </div>
-          MY UPLOADS
+          my uploads
         </h2>
         
         <div className="grid gap-4">
@@ -169,9 +169,9 @@ export const UserProfile = ({ userAddress }: UserProfileProps) => {
               <div className="w-16 h-16 bg-taco-light-grey rounded-full flex items-center justify-center mx-auto mb-6">
                 <Music className="w-8 h-8 text-taco-dark-grey" />
               </div>
-              <h3 className="taco-subheading text-taco-black mb-3">NO TRACKS UPLOADED YET</h3>
+              <h3 className="taco-subheading text-taco-black mb-3">no tracks uploaded yet</h3>
               <p className="taco-ui-text text-taco-dark-grey">
-                UPLOAD YOUR FIRST ENCRYPTED TRACK TO GET STARTED
+                upload your first encrypted track to get started
               </p>
             </CardContent>
           </Card>

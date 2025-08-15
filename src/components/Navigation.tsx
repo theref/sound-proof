@@ -21,20 +21,20 @@ export const Navigation = ({
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-xs text-taco-dark-grey font-mono">BUILT BY</span>
+            <span className="text-xs text-taco-dark-grey font-mono">built by</span>
             <TacoLogo size="lg" />
           </div>
           
           <div className="flex items-center gap-2">
-            <Button variant={activeView === "feed" ? "default" : "ghost"} size="sm" onClick={() => onViewChange("feed")} className={`taco-ui-text ${activeView === "feed" ? "taco-button-accent" : "hover:bg-gray-100"}`}>
+            <Button variant={activeView === "feed" ? "default" : "ghost"} size="sm" onClick={() => onViewChange("feed")} className={`taco-ui-text ${activeView === "feed" ? "taco-button-accent" : "hover:bg-brand-orange-50"}`}>
               <Music className="w-4 h-4 mr-2" />
               Feed
             </Button>
-            <Button variant={activeView === "upload" ? "default" : "ghost"} size="sm" onClick={() => onViewChange("upload")} className={`taco-ui-text ${activeView === "upload" ? "taco-button-accent" : "hover:bg-gray-100"}`}>
+            <Button variant={activeView === "upload" ? "default" : "ghost"} size="sm" onClick={() => onViewChange("upload")} className={`taco-ui-text ${activeView === "upload" ? "taco-button-accent" : "hover:bg-brand-orange-50"}`}>
               <Upload className="w-4 h-4 mr-2" />
               Upload
             </Button>
-            <Button variant={activeView === "profile" ? "default" : "ghost"} size="sm" onClick={() => onViewChange("profile")} className={`taco-ui-text ${activeView === "profile" ? "taco-button-accent" : "hover:bg-gray-100"}`}>
+            <Button variant={activeView === "profile" ? "default" : "ghost"} size="sm" onClick={() => onViewChange("profile")} className={`taco-ui-text ${activeView === "profile" ? "taco-button-accent" : "hover:bg-brand-orange-50"}`}>
               <User className="w-4 h-4 mr-2" />
               Profile
             </Button>
@@ -46,7 +46,7 @@ export const Navigation = ({
               className="taco-ui-text text-gray-600 hover:text-black transition-colors"
               clickable={true}
             />
-            <Button variant="ghost" size="sm" onClick={onDisconnect} className="text-gray-600 hover:text-black hover:bg-gray-100">
+            <Button variant="ghost" size="sm" onClick={onDisconnect} className="text-gray-600 hover:text-brand-orange-600 hover:bg-brand-orange-50">
               <LogOut className="w-4 h-4" />
             </Button>
           </div>

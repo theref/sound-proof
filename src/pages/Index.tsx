@@ -48,7 +48,7 @@ const Index = () => {
         <div className="mb-4">
           <Button 
             onClick={() => setDebugView("none")} 
-            className="mb-4 bg-gray-600 hover:bg-gray-700"
+            className="mb-4 bg-brand-orange-600 hover:bg-brand-orange-700"
           >
             ← Back to Landing
           </Button>
@@ -62,7 +62,7 @@ const Index = () => {
         <div className="mb-4">
           <Button 
             onClick={() => setDebugView("none")} 
-            className="mb-4 bg-gray-600 hover:bg-gray-700"
+            className="mb-4 bg-brand-orange-600 hover:bg-brand-orange-700"
           >
             ← Back to Landing
           </Button>
@@ -76,7 +76,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto space-y-16">
             {/* Hero Section */}
             <div className="text-center space-y-6">
-              <h1 className="taco-banner text-taco-black">SOUND PROOF</h1>
+              <h1 className="taco-banner text-taco-black">sound proof</h1>
               <p className="taco-body text-taco-dark-grey max-w-2xl mx-auto">
                 Discover tomorrow's artists today. Pay once, own forever. 
                 Music discovery powered by your Farcaster social network.
@@ -92,7 +92,7 @@ const Index = () => {
             <Card className="border-2 border-taco-black bg-white">
               <CardHeader className="border-b-2 border-taco-black">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 rounded-full flex items-center justify-center">
                     <Music className="w-6 h-6 text-white" />
                   </div>
                   <CardTitle className="taco-subheading text-taco-black">
@@ -135,7 +135,7 @@ const Index = () => {
             <Card className="border-2 border-taco-black bg-white">
               <CardHeader className="border-b-2 border-taco-black">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 rounded-full flex items-center justify-center">
                     <Music className="w-6 h-6 text-white" />
                   </div>
                   <CardTitle className="taco-subheading text-taco-black">
@@ -153,19 +153,19 @@ const Index = () => {
                     <p className="taco-ui-text font-bold text-taco-black">Social Features:</p>
                     <ul className="space-y-2">
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-500 rounded-full"></div>
                         Friend-based discovery
                       </li>
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-500 rounded-full"></div>
                         Playlist sharing as casts
                       </li>
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-500 rounded-full"></div>
                         Native tipping support
                       </li>
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-500 rounded-full"></div>
                         Music community channels
                       </li>
                     </ul>
@@ -174,19 +174,19 @@ const Index = () => {
                     <p className="taco-ui-text font-bold text-taco-black">Perfect for:</p>
                     <ul className="space-y-2">
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-600 rounded-full"></div>
                         Bedroom producers
                       </li>
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-600 rounded-full"></div>
                         Music crate-diggers
                       </li>
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-600 rounded-full"></div>
                         Playlist curators
                       </li>
                       <li className="taco-ui-text text-taco-dark-grey flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <div className="w-2 h-2 bg-brand-orange-600 rounded-full"></div>
                         Underground music fans
                       </li>
                     </ul>
@@ -200,8 +200,8 @@ const Index = () => {
               <p className="taco-body text-taco-dark-grey mb-6">
                 Ready to discover tomorrow's artists today?
               </p>
-              <Button onClick={handleFarcasterConnect} className="taco-button px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 border-none">
-                <span className="taco-ui-text text-white">GET STARTED</span>
+              <Button onClick={handleFarcasterConnect} className="taco-button px-8 py-4 text-lg bg-gradient-to-r from-brand-orange-500 to-brand-orange-600 hover:from-brand-orange-700 hover:to-brand-orange-800 border-none">
+                <span className="taco-ui-text text-white">get started</span>
               </Button>
             </div>
           </div>
@@ -214,13 +214,13 @@ const Index = () => {
             <div className="flex flex-col gap-2">
               <button
                 onClick={() => setDebugView("test")}
-                className="px-3 py-2 bg-purple-600 text-white text-xs rounded hover:bg-purple-700"
+                className="px-3 py-2 bg-brand-orange-500 text-white text-xs rounded hover:bg-brand-orange-600"
               >
                 Testing Suite
               </button>
               <button
                 onClick={() => setDebugView("farcaster-test")}
-                className="px-3 py-2 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+                className="px-3 py-2 bg-brand-orange-600 text-white text-xs rounded hover:bg-brand-orange-700"
               >
                 Farcaster Test
               </button>
@@ -231,19 +231,19 @@ const Index = () => {
                     const client = getFarcasterClient();
                     client.getUserByFid(3).then(user => {
                       console.log('✅ Neynar API test successful:', user?.username || 'Connected');
-                      alert('API Test Results:\n✅ Neynar: Connected\n✅ Lighthouse: Configured\n\nSee browser console for details');
+                      alert('api test results:\n✅ Neynar: Connected\n✅ Lighthouse: Configured\n\nSee browser console for details');
                     }).catch(e => {
                       console.error('❌ Neynar API test failed:', e);
-                      alert('API Test Results:\n❌ Neynar: Failed\n✅ Lighthouse: Configured\n\nCheck console for errors');
+                      alert('api test results:\n❌ Neynar: Failed\n✅ Lighthouse: Configured\n\nCheck console for errors');
                     });
                   } catch (e) {
                     console.error('❌ API client error:', e);
-                    alert('API Test Error:\n' + e.message);
+                    alert('api test error:\n' + e.message);
                   }
                 }}
-                className="px-3 py-2 bg-green-600 text-white text-xs rounded hover:bg-green-700"
+                className="px-3 py-2 bg-brand-orange-500 text-white text-xs rounded hover:bg-brand-orange-600"
               >
-                API Test
+                api test
               </button>
             </div>
           </div>
@@ -277,13 +277,13 @@ const Index = () => {
             <div className="flex gap-2">
               <button
                 onClick={() => setActiveView("test")}
-                className="px-2 py-1 bg-purple-600 text-white text-xs rounded hover:bg-purple-700"
+                className="px-2 py-1 bg-brand-orange-500 text-white text-xs rounded hover:bg-brand-orange-600"
               >
                 Testing Suite
               </button>
               <button
                 onClick={() => setActiveView("farcaster-test")}
-                className="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+                className="px-2 py-1 bg-brand-orange-600 text-white text-xs rounded hover:bg-brand-orange-700"
               >
                 Farcaster Test
               </button>

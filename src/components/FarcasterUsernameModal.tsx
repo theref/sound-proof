@@ -38,7 +38,7 @@ export const FarcasterUsernameModal = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <Card className="w-full max-w-md border-2 border-taco-black bg-white">
         <CardHeader className="text-center border-b-2 border-taco-black">
-          <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8 text-white" />
           </div>
           <CardTitle className="taco-subheading text-taco-black">
@@ -48,13 +48,13 @@ export const FarcasterUsernameModal = ({
         
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+            <div className="bg-brand-orange-50 border-2 border-brand-orange-200 rounded-lg p-4">
               <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                <AlertCircle className="w-5 h-5 text-brand-orange-500 mt-0.5 flex-shrink-0" />
                 <div className="text-sm">
-                  <p className="text-blue-800 font-semibold mb-1">Quick Verification</p>
-                  <p className="text-blue-700">
-                    We'll verify that wallet <code className="bg-blue-100 px-1 rounded text-xs">{walletAddress.slice(0, 8)}...{walletAddress.slice(-6)}</code> is 
+                  <p className="text-brand-orange-800 font-semibold mb-1">Quick Verification</p>
+                  <p className="text-brand-orange-700">
+                    We'll verify that wallet <code className="bg-brand-orange-100 px-1 rounded text-xs">{walletAddress.slice(0, 8)}...{walletAddress.slice(-6)}</code> is 
                     connected to your Farcaster profile.
                   </p>
                 </div>
@@ -104,7 +104,7 @@ export const FarcasterUsernameModal = ({
               <Button
                 type="submit"
                 disabled={!username.trim() || isSubmitting}
-                className="flex-1 taco-button bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 border-none"
+                className="flex-1 taco-button bg-gradient-to-r from-brand-orange-500 to-brand-orange-600 hover:from-brand-orange-600 hover:to-brand-orange-700 border-none"
               >
                 {isSubmitting ? (
                   <>

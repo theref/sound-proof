@@ -61,7 +61,7 @@ export const FarcasterTest = () => {
             <Button
               onClick={testFarcasterLookup}
               disabled={isLoading}
-              className="taco-button bg-purple-600 hover:bg-purple-700"
+              className="taco-button bg-brand-orange-500 hover:bg-brand-orange-600"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -86,7 +86,7 @@ export const FarcasterTest = () => {
                     {userData.displayName}
                   </h3>
                   <p className="taco-ui-text text-taco-dark-grey">
-                    @{userData.username} • FID: {userData.fid}
+                    @{userData.username} • fid: {userData.fid}
                   </p>
                 </div>
               </div>

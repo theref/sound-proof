@@ -70,7 +70,7 @@ export const UploadTrack = ({ userAddress }: UploadTrackProps) => {
       await initialize();
       console.log('✅ TACo initialized successfully');
       toast.loading(`Uploading ${title}...`, {
-        description: "TACo initialized",
+        description: "taco initialized",
         id: toastId,
       });
 
@@ -181,13 +181,13 @@ export const UploadTrack = ({ userAddress }: UploadTrackProps) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter your track title"
-              className="border-2 border-taco-black bg-white text-taco-black placeholder:text-taco-dark-grey focus:border-taco-neon taco-ui-text"
+              className="border-2 border-taco-black bg-white text-taco-black placeholder:text-taco-dark-grey focus:border-brand-orange-500 taco-ui-text"
             />
           </div>
           
           <div className="space-y-2">
             <Label className="taco-ui-text text-taco-black">Audio File</Label>
-            <div className="border-2 border-dashed border-taco-black rounded-lg p-6 text-center hover:border-taco-neon transition-colors bg-taco-light-grey">
+            <div className="border-2 border-dashed border-taco-black rounded-lg p-6 text-center hover:border-brand-orange-500 transition-colors bg-taco-light-grey">
               <input
                 type="file"
                 accept="audio/*"
@@ -201,7 +201,7 @@ export const UploadTrack = ({ userAddress }: UploadTrackProps) => {
                   {audioFile ? audioFile.name : "Click to select audio file"}
                 </p>
                 <p className="taco-ui-text text-taco-dark-grey text-sm mt-1">
-                  Supports MP3, WAV, FLAC and other audio formats
+                  Supports mp3, wav, flac and other audio formats
                 </p>
               </label>
             </div>
@@ -209,7 +209,7 @@ export const UploadTrack = ({ userAddress }: UploadTrackProps) => {
           
           <div className="space-y-2">
             <Label className="taco-ui-text text-taco-black">Cover Art (Optional)</Label>
-            <div className="border-2 border-dashed border-taco-black rounded-lg p-6 text-center hover:border-taco-neon transition-colors bg-taco-light-grey">
+            <div className="border-2 border-dashed border-taco-black rounded-lg p-6 text-center hover:border-brand-orange-500 transition-colors bg-taco-light-grey">
               <input
                 type="file"
                 accept="image/*"
@@ -223,7 +223,7 @@ export const UploadTrack = ({ userAddress }: UploadTrackProps) => {
                   {coverFile ? coverFile.name : "Click to select cover image"}
                 </p>
                 <p className="taco-ui-text text-taco-dark-grey text-sm mt-1">
-                  Supports JPG, PNG and other image formats
+                  Supports jpg, png and other image formats
                 </p>
               </label>
             </div>
@@ -261,12 +261,12 @@ export const UploadTrack = ({ userAddress }: UploadTrackProps) => {
         {isUploading ? (
           <>
             <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin mr-3" />
-            <span className="taco-ui-text">ENCRYPTING & UPLOADING...</span>
+            <span className="taco-ui-text">encrypting & uploading...</span>
           </>
         ) : (
           <>
             <Upload className="w-5 h-5 mr-3" />
-            <span className="taco-ui-text">UPLOAD TRACK</span>
+            <span className="taco-ui-text">upload track</span>
           </>
         )}
       </Button>

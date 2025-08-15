@@ -22,7 +22,7 @@ export const FarcasterConnection = ({ onConnect }: FarcasterConnectionProps) => 
   return (
     <Card className="w-full max-w-md border-2 border-taco-black bg-white">
       <CardHeader className="text-center border-b-2 border-taco-black">
-        <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
           <User className="w-8 h-8 text-white" />
         </div>
         <CardTitle className="taco-subheading text-taco-black mb-2">
@@ -63,17 +63,17 @@ export const FarcasterConnection = ({ onConnect }: FarcasterConnectionProps) => 
         <Button 
           onClick={handleConnect}
           disabled={isLoading}
-          className="w-full taco-button py-4 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 border-none"
+          className="w-full taco-button py-4 text-lg bg-gradient-to-r from-brand-orange-500 to-brand-orange-600 hover:from-brand-orange-700 hover:to-brand-orange-800 border-none"
         >
           {isLoading ? (
             <>
               <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin mr-3" />
-              <span className="taco-ui-text text-white">CONNECTING...</span>
+              <span className="taco-ui-text text-white">connecting...</span>
             </>
           ) : (
             <>
               <User className="w-5 h-5 mr-3" />
-              <span className="taco-ui-text text-white">SIGN IN WITH FARCASTER</span>
+              <span className="taco-ui-text text-white">sign in with farcaster</span>
             </>
           )}
         </Button>
@@ -84,7 +84,7 @@ export const FarcasterConnection = ({ onConnect }: FarcasterConnectionProps) => 
             href="https://warpcast.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-purple-600 font-bold hover:text-purple-700 transition-colors underline"
+            className="text-brand-orange-500 font-bold hover:text-brand-orange-600 transition-colors underline"
           >
             Join here
           </a>

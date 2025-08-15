@@ -131,7 +131,7 @@ export const MusicFeedSimple = () => {
                 variant={selectedGenre === genre ? "default" : "outline"}
                 className={`cursor-pointer border-2 ${
                   selectedGenre === genre 
-                    ? 'border-purple-600 bg-purple-600' 
+                    ? 'border-brand-orange-500 bg-brand-orange-500' 
                     : 'border-taco-black'
                 }`}
                 onClick={() => setSelectedGenre(selectedGenre === genre ? "" : genre)}
@@ -165,7 +165,7 @@ export const MusicFeedSimple = () => {
               key={track.id} 
               className={`border-2 transition-all hover:shadow-md ${
                 currentTrack?.id === track.id 
-                  ? 'border-purple-600 bg-purple-50' 
+                  ? 'border-brand-orange-500 bg-brand-orange-50' 
                   : 'border-taco-black bg-white'
               }`}
             >
@@ -177,7 +177,7 @@ export const MusicFeedSimple = () => {
                     onClick={() => handleTrackPlay(track)}
                     className={`w-12 h-12 rounded-full ${
                       currentTrack?.id === track.id && isPlaying
-                        ? 'bg-purple-600 hover:bg-purple-700' 
+                        ? 'bg-brand-orange-500 hover:bg-brand-orange-600' 
                         : 'bg-taco-black hover:bg-taco-dark-grey'
                     }`}
                   >

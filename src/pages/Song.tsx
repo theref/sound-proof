@@ -218,7 +218,7 @@ const Song = () => {
                     {isEncrypted && <Lock className="w-4 h-4 text-black" />}
                     <Badge 
                       variant="secondary" 
-                      className={`${isEncrypted ? 'bg-taco-neon text-black border-black' : 'bg-white text-black border-black'} border-2`}
+                      className={`${isEncrypted ? 'bg-brand-orange-500 text-white border-brand-orange-500' : 'bg-white text-black border-black'} border-2`}
                     >
                       {track.access_rule?.type || 'Public'}
                     </Badge>
@@ -242,7 +242,7 @@ const Song = () => {
             
             <CardContent className="p-6">
               <div>
-                <div className="taco-ui-text text-taco-dark-grey text-sm mb-1">IPFS Content ID</div>
+                <div className="taco-ui-text text-taco-dark-grey text-sm mb-1">ipfs content id</div>
                 <div className="taco-ui-text text-black font-mono text-sm break-all bg-taco-light-grey p-3 border border-taco-dark-grey rounded">
                   {track.cid}
                 </div>

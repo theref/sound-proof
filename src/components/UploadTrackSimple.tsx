@@ -186,7 +186,7 @@ export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
       <Card className="max-w-2xl mx-auto border-2 border-taco-black bg-white">
         <CardHeader className="border-b-2 border-taco-black">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 rounded-full flex items-center justify-center">
               <Upload className="w-6 h-6 text-white" />
             </div>
             <CardTitle className="taco-subheading text-taco-black">
@@ -301,7 +301,7 @@ export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
                 disabled={isUploading}
                 className={`p-4 border-2 text-left transition-all ${
                   accessType === 'public' 
-                    ? 'border-purple-600 bg-purple-50' 
+                    ? 'border-brand-orange-500 bg-brand-orange-50' 
                     : 'border-taco-black bg-white hover:bg-taco-light-grey'
                 }`}
               >
@@ -320,7 +320,7 @@ export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
                 disabled={isUploading}
                 className={`p-4 border-2 text-left transition-all ${
                   accessType === 'encrypted' 
-                    ? 'border-purple-600 bg-purple-50' 
+                    ? 'border-brand-orange-500 bg-brand-orange-50' 
                     : 'border-taco-black bg-white hover:bg-taco-light-grey'
                 }`}
               >
@@ -339,17 +339,17 @@ export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
           <Button
             onClick={handleUpload}
             disabled={!title || !audioFile || isUploading}
-            className="w-full taco-button py-4 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 border-none"
+            className="w-full taco-button py-4 text-lg bg-gradient-to-r from-brand-orange-500 to-brand-orange-600 hover:from-brand-orange-700 hover:to-brand-orange-800 border-none"
           >
             {isUploading ? (
               <>
                 <Loader2 className="w-5 h-5 mr-3 animate-spin" />
-                <span className="taco-ui-text text-white">UPLOADING...</span>
+                <span className="taco-ui-text text-white">uploading...</span>
               </>
             ) : (
               <>
                 <Upload className="w-5 h-5 mr-3" />
-                <span className="taco-ui-text text-white">UPLOAD TRACK</span>
+                <span className="taco-ui-text text-white">upload track</span>
               </>
             )}
           </Button>

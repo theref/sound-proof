@@ -95,7 +95,7 @@ export const PlayerBar = () => {
             variant="ghost"
             size="sm"
             onClick={() => setVolume(volume > 0 ? 0 : 1)}
-            className="hover:bg-gray-100"
+            className="hover:bg-brand-orange-50"
           >
             {volume === 0 ? (
               <VolumeX className="w-4 h-4 text-gray-600" />

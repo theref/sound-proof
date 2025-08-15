@@ -141,7 +141,7 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
         <CardHeader className="border-b-2 border-taco-black">
           <div className="flex items-center gap-6">
             {/* Avatar */}
-            <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-20 h-20 bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 rounded-full flex items-center justify-center flex-shrink-0">
               {user.pfp.url ? (
                 <img
                   src={user.pfp.url}
@@ -189,7 +189,7 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
                   <strong>{user.followingCount}</strong> following
                 </span>
                 <span className="taco-ui-text text-taco-dark-grey">
-                  FID: <strong>{user.fid}</strong>
+                  fid: <strong>{user.fid}</strong>
                 </span>
               </div>
             </div>
@@ -247,7 +247,7 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
                   key={track.id}
                   className={`border-2 transition-all ${
                     currentTrack?.id === track.id 
-                      ? 'border-purple-600 bg-purple-50' 
+                      ? 'border-brand-orange-500 bg-brand-orange-50' 
                       : 'border-taco-black bg-white'
                   }`}
                 >
@@ -259,7 +259,7 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
                         onClick={() => handleTrackPlay(track)}
                         className={`w-12 h-12 rounded-full ${
                           currentTrack?.id === track.id && isPlaying
-                            ? 'bg-purple-600 hover:bg-purple-700' 
+                            ? 'bg-brand-orange-500 hover:bg-brand-orange-600' 
                             : 'bg-taco-black hover:bg-taco-dark-grey'
                         }`}
                       >
@@ -360,8 +360,8 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
                 <h4 className="taco-ui-text font-bold text-taco-black mb-2">Storage Info</h4>
                 <div className="space-y-1 text-sm text-taco-dark-grey">
                   <p>• Profile data: Stored locally in your browser</p>
-                  <p>• Audio files: Stored on IPFS (permanent)</p>
-                  <p>• Metadata: Stored on IPFS (permanent)</p>
+                  <p>• Audio files: Stored on ipfs (permanent)</p>
+                  <p>• Metadata: Stored on ipfs (permanent)</p>
                   <p>• Clear browser data will reset your local profile</p>
                 </div>
               </div>

@@ -74,8 +74,8 @@ export const MusicFeed = () => {
 
   const formatAccessCondition = (accessRule: AccessRule): string => {
     if (accessRule.type === "public") return "Public";
-    if (accessRule.type === "erc20") return `ERC20 > ${accessRule.minBalance}`;
-    if (accessRule.type === "nft") return "NFT Holder";
+    if (accessRule.type === "erc20") return `erc20 > ${accessRule.minBalance}`;
+    if (accessRule.type === "nft") return "nft holder";
     return "Unknown";
   };
 

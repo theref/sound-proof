@@ -100,8 +100,8 @@ export const TacoConditionsForm = ({ onChange, disabled }: TacoConditionsFormPro
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="border-2 border-taco-black bg-white">
-              <SelectItem value="erc20" className="taco-ui-text">ERC20 Balance</SelectItem>
-              <SelectItem value="erc721" className="taco-ui-text">NFT Ownership</SelectItem>
+              <SelectItem value="erc20" className="taco-ui-text">erc20 balance</SelectItem>
+              <SelectItem value="erc721" className="taco-ui-text">nft ownership</SelectItem>
             </SelectContent>
           </Select>
         </div>
