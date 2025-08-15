@@ -20,17 +20,31 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'taco-mono': ['IBM Plex Mono', 'monospace'],
-				'mono': ['IBM Plex Mono', 'monospace'],
-				'sans': ['IBM Plex Mono', 'monospace'],
+				'taco-mono': ['Courier Prime', 'Courier New', 'monospace'],
+				'mono': ['Courier Prime', 'Courier New', 'monospace'],
+				'sans': ['Courier Prime', 'Courier New', 'monospace'],
 			},
 			colors: {
 				// TACo Brand Colors
 				'taco-black': '#000000',
 				'taco-white': '#FFFFFF',
-				'taco-neon': '#96FF5E',
+				'taco-neon': '#E85A00',
 				'taco-light-grey': '#F4F4F4',
 				'taco-dark-grey': '#909090',
+				
+				// SoundProof Brand Orange
+				'brand-orange': {
+					50: '#FFF4ED',
+					100: '#FFE6D5',
+					200: '#FFCCAA',
+					300: '#FFA574',
+					400: '#FF7A1A',
+					500: '#E85A00',
+					600: '#CC4F00',
+					700: '#B23F00',
+					800: '#A63600',
+					900: '#8A2E00',
+				},
 				
 				// Design system
 				border: 'hsl(var(--border))',

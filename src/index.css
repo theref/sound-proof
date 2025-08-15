@@ -2,7 +2,7 @@
 /* Import TACo brand fonts - must come before @tailwind */
 @import url('https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -15,7 +15,7 @@
     /* TACo Brand Colors */
     --taco-black: #000000;
     --taco-white: #FFFFFF;
-    --taco-neon-green: #96FF5E;
+    --taco-neon-green: #E85A00;
     --taco-light-grey: #F4F4F4;
     --taco-dark-grey: #909090;
     
@@ -38,8 +38,8 @@
     --muted: 0 0% 95.8%;
     --muted-foreground: 0 0% 56.5%;
 
-    --accent: 84 100% 67%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 24 100% 45%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
@@ -79,8 +79,8 @@
     --muted: 0 0% 5%;
     --muted-foreground: 0 0% 56.5%;
 
-    --accent: 84 100% 67%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 24 100% 45%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
@@ -107,70 +107,67 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 500;
   }
 }
 
-/* TACo Brand Typography Classes - All using IBM Plex Mono */
+/* TACo Brand Typography Classes - All using Courier Prime (typewriter style) */
 @layer components {
   .taco-banner {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-size: clamp(2rem, 8vw, 10rem);
     font-weight: 700;
     line-height: 0.9;
     letter-spacing: -0.02em;
-    text-transform: uppercase;
   }
 
   .taco-headline {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 700;
     font-size: clamp(2rem, 5vw, 5rem);
     line-height: 1.1;
     letter-spacing: -0.02em;
-    text-transform: uppercase;
   }
 
   .taco-subheading {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 600;
     font-size: clamp(1.25rem, 3vw, 2.5rem);
     line-height: 1.2;
-    text-transform: uppercase;
   }
 
   .taco-body {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 500;
     font-size: 1.25rem;
     line-height: 1.4;
   }
 
   .taco-ui-text {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 500;
     font-size: 0.9375rem;
     letter-spacing: 0.025em;
   }
 
   .taco-logo-style {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 500;
     letter-spacing: 0.1em;
   }
 
   /* Neon green accent utility */
   .text-neon {
-    color: #96FF5E;
+    color: #E85A00;
   }
 
   .bg-neon {
-    background-color: #96FF5E;
+    background-color: #E85A00;
   }
 
   .border-neon {
-    border-color: #96FF5E;
+    border-color: #E85A00;
   }
 
   /* Grid background pattern like in the image */
@@ -183,24 +180,24 @@
 
   /* Activist poster style button */
   .taco-button {
-    @apply bg-black text-white border-2 border-black font-bold uppercase tracking-wider;
-    font-family: 'IBM Plex Mono', monospace;
+    @apply bg-black text-white border-2 border-black font-bold tracking-wider;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 700;
     transition: all 0.2s ease;
   }
 
   .taco-button:hover {
-    @apply bg-neon text-black border-neon;
+    @apply bg-brand-orange-500 text-white border-brand-orange-500;
   }
 
   .taco-button-accent {
-    @apply bg-neon text-black border-2 border-neon font-bold uppercase tracking-wider;
-    font-family: 'IBM Plex Mono', monospace;
+    @apply bg-brand-orange-500 text-white border-2 border-brand-orange-500 font-bold tracking-wider;
+    font-family: 'Courier Prime', 'Courier New', monospace;
     font-weight: 700;
     transition: all 0.2s ease;
   }
 
   .taco-button-accent:hover {
-    @apply bg-black text-neon;
+    @apply bg-brand-orange-600 text-white border-brand-orange-600;
   }
 }
