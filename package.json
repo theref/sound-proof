@@ -19,6 +19,7 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
+    "@farcaster/miniapp-sdk": "^0.1.8",
     "@hookform/resolvers": "^3.9.0",
     "@nucypher/taco": "^0.6.0",
     "@nucypher/taco-auth": "^0.3.0",
