@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { getFarcasterClient } from '@/integrations/farcaster/client';
 import { useToast } from '@/hooks/use-toast';
 import { userStorage, type StoredUser } from '@/utils/localStorage';
 import { cloudStorage } from '@/services/cloudStorage';
+import { useFarcasterMiniapp } from '@/hooks/useFarcasterMiniapp';
 import type { FarcasterUser } from '@/integrations/farcaster/types';
 
 interface FarcasterAuthState {
@@ -29,6 +30,7 @@ export const useFarcasterAuth = () => {
     signer: ethers.providers.JsonRpcSigner;
   } | null>(null);
   const { toast } = useToast();
+  const { isMiniapp, user: miniappUser } = useFarcasterMiniapp();
   
   // Initialize Farcaster client with error handling
   const getFarcasterClientSafe = () => {
@@ -42,6 +44,65 @@ export const useFarcasterAuth = () => {
       throw new Error('Farcaster client initialization failed. Please check your VITE_NEYNAR_API_KEY.');
     }
   };
+
+  const signInWithMiniapp = useCallback(async () => {
+    if (!isMiniapp || !miniappUser) {
+      console.warn('Not in miniapp context or no miniapp user available');
+      return;
+    }
+
+    console.log('🔍 Miniapp user context:', miniappUser);
+    console.log('🔍 Miniapp user FID type:', typeof miniappUser.fid, 'value:', miniappUser.fid);
+
+    if (!miniappUser.fid || typeof miniappUser.fid !== 'number') {
+      throw new Error(`Invalid miniapp user FID: ${miniappUser.fid} (type: ${typeof miniappUser.fid})`);
+    }
+
+    setState(prev => ({ ...prev, isLoading: true }));
+
+    try {
+      const farcasterClient = getFarcasterClientSafe();
+      const farcasterUser = await farcasterClient.getUserByFid(miniappUser.fid);
+      
+      if (!farcasterUser) {
+        throw new Error(`Farcaster user with FID ${miniappUser.fid} not found`);
+      }
+
+      console.log('✅ Authenticated via Farcaster miniapp:', farcasterUser.username);
+
+      // Save user data (no wallet address needed for miniapp)
+      const userData: StoredUser = {
+        ...farcasterUser,
+        walletAddress: null,
+        lastLogin: new Date().toISOString(),
+      };
+
+      await cloudStorage.saveUser(userData);
+      console.log('✅ User data saved');
+
+      setState({
+        isConnected: true,
+        user: farcasterUser,
+        verifiedAddress: null, // No wallet needed for miniapp
+        signer: null,
+        isLoading: false,
+      });
+
+      toast({
+        title: "Welcome to SoundProof!",
+        description: `Signed in as @${farcasterUser.username} via miniapp`,
+      });
+
+    } catch (error) {
+      console.error('Miniapp auth failed:', error);
+      setState(prev => ({ ...prev, isLoading: false }));
+      toast({
+        title: "Miniapp sign-in failed",
+        description: error instanceof Error ? error.message : "Failed to authenticate via miniapp.",
+        variant: "destructive",
+      });
+    }
+  }, [isMiniapp, miniappUser, toast]);
 
   const signInWithFarcaster = async () => {
     if (!window.ethereum) {
@@ -208,10 +269,31 @@ I authorize this application to access my Farcaster identity.`;
     });
   };
 
-  // Check for existing session on mount
+  // Check for existing session on mount and handle miniapp authentication
   useEffect(() => {
     const checkExistingSession = async () => {
       console.log('📂 Checking for existing session...')
+      
+      // If we're in a miniapp and have valid user context, try automatic auth
+      if (isMiniapp && miniappUser && miniappUser.fid && typeof miniappUser.fid === 'number' && !state.isConnected) {
+        console.log('🚀 Attempting automatic miniapp authentication...');
+        try {
+          await signInWithMiniapp();
+        } catch (error) {
+          console.error('❌ Miniapp authentication failed:', error);
+          // Continue with normal flow if miniapp auth fails
+        }
+        return;
+      }
+      
+      // Log context for debugging (both miniapp and non-miniapp scenarios)
+      console.log('🔧 Auth context:', {
+        isMiniapp,
+        hasMiniappUser: !!miniappUser,
+        miniappUserFid: miniappUser?.fid,
+        miniappUserFidType: typeof miniappUser?.fid,
+        isConnected: state.isConnected
+      });
       
       // Try to get stored user from localStorage first (for FID)
       const localUser = userStorage.get();
@@ -266,7 +348,7 @@ I authorize this application to access my Farcaster identity.`;
     };
 
     checkExistingSession();
-  }, []);
+  }, [isMiniapp, miniappUser, state.isConnected, signInWithMiniapp]);
 
   // Note: Don't automatically clear storage when isConnected is false
   // This would interfere with session restoration on page load
@@ -274,11 +356,19 @@ I authorize this application to access my Farcaster identity.`;
   return {
     ...state,
     signInWithFarcaster,
+    signInWithMiniapp,
     signOut,
     // Username modal state
     showUsernameModal,
     handleUsernameSubmit,
     handleUsernameCancel,
     pendingWalletAddress: pendingWalletData?.walletAddress,
+    // Miniapp state
+    isMiniapp,
+    miniappUser,
+    // Helper to determine if wallet features should be available
+    hasWalletFeatures: !isMiniapp || !!state.verifiedAddress,
+    // Helper to determine auth method being used
+    authMethod: isMiniapp && state.isConnected && !state.verifiedAddress ? 'miniapp' : 'wallet'
   };
 };

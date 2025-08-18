@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PlaybackProvider } from "@/contexts/PlaybackContext";
 import { PlayerBar } from "@/components/PlayerBar";
+import { useFarcasterMiniapp } from "@/hooks/useFarcasterMiniapp";
+import { useEffect } from "react";
 import Index from "./pages/Index";
 import Song from "./pages/Song";
 import Profile from "./pages/Profile";
@@ -22,6 +24,22 @@ const queryClient = new QueryClient({
 
 const App = () => {
   console.log('🎵 App component rendering...')
+  const { isLoaded, isMiniapp, ready } = useFarcasterMiniapp();
+  
+  // Call ready when the app has loaded and we're in a miniapp context
+  useEffect(() => {
+    if (isLoaded && isMiniapp) {
+      // Give the React app a moment to fully render
+      const timer = setTimeout(() => {
+        ready();
+        console.log('✅ Farcaster miniapp ready called');
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoaded, isMiniapp, ready]);
+
+  console.log('🔍 Miniapp status:', { isLoaded, isMiniapp });
   
   return (
     <QueryClientProvider client={queryClient}>

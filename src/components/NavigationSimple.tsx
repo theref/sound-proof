@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Music, Upload, User, LogOut, ExternalLink } from "lucide-react";
+import { Music, Upload, User, LogOut, ExternalLink, Smartphone, Wallet } from "lucide-react";
 import { useFarcasterAuth } from "@/hooks/useFarcasterAuth";
 
 interface NavigationSimpleProps {
@@ -14,7 +14,7 @@ export const NavigationSimple = ({
   onViewChange,
   onDisconnect
 }: NavigationSimpleProps) => {
-  const { user, isConnected } = useFarcasterAuth();
+  const { user, isConnected, isMiniapp, hasWalletFeatures, authMethod } = useFarcasterAuth();
 
   return (
     <nav className="border-b-2 border-taco-black bg-white sticky top-0 z-50">
@@ -92,7 +92,14 @@ export const NavigationSimple = ({
                   />
                 )}
                 <div className="text-sm">
-                  <div className="font-bold text-taco-black">{user.displayName}</div>
+                  <div className="font-bold text-taco-black flex items-center gap-1">
+                    {user.displayName}
+                    {isMiniapp ? (
+                      <Smartphone className="w-3 h-3 text-brand-orange-500" title="Miniapp" />
+                    ) : hasWalletFeatures ? (
+                      <Wallet className="w-3 h-3 text-green-500" title="Wallet Connected" />
+                    ) : null}
+                  </div>
                   <div className="text-taco-dark-grey">@{user.username}</div>
                 </div>
               </div>
