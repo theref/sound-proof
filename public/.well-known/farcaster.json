@@ -1,0 +1,17 @@
+{
+  "version": "1",
+  "name": "SoundProof",
+  "iconUrl": "https://soundproof.app/icon.png",
+  "homeUrl": "https://soundproof.app",
+  "accountAssociation": {
+    "header": {
+      "fid": 0,
+      "type": "custody",
+      "key": "0x0000000000000000000000000000000000000000"
+    },
+    "payload": {
+      "domain": "soundproof.app"
+    },
+    "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
