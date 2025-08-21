@@ -8,6 +8,7 @@ import { UploadTrackSimple } from "@/components/UploadTrackSimple";
 import { TestingSuite } from "@/components/TestingSuite";
 import { FarcasterTest } from "@/components/FarcasterTest";
 import { FarcasterUsernameModal } from "@/components/FarcasterUsernameModal";
+import { ConvexTest } from "@/components/ConvexTest";
 import { NavigationSimple } from "@/components/NavigationSimple";
 import { PlayerBar } from "@/components/PlayerBar";
 import { PlaybackProvider } from "@/contexts/PlaybackContext";
@@ -263,6 +264,9 @@ const Index = () => {
         <NavigationSimple activeView={activeView} onViewChange={setActiveView} userAddress={user?.fid.toString() || ''} onDisconnect={signOut} />
         
         <main className="container mx-auto px-4 py-8">
+          {/* Show Convex status in development */}
+          {showDevTools && <ConvexTest />}
+          
           {activeView === "feed" && <MusicFeedSimple />}
           {activeView === "upload" && <UploadTrackSimple userAddress={user?.fid.toString() || ''} />}
           {activeView === "profile" && <UserProfileSimple userAddress={user?.fid.toString() || ''} />}

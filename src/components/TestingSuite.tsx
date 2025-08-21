@@ -18,6 +18,7 @@ import { toast } from "sonner";
 
 // Import testing utilities
 import { getFarcasterClient } from "@/integrations/farcaster/client";
+import { ConvexTest } from "./ConvexTest";
 import { uploadToLighthouse, checkFileExists } from "@/services/lighthouseService";
 import { storage, trackStorage, userStorage } from "@/utils/localStorage";
 import { useFarcasterAuth } from "@/hooks/useFarcasterAuth";
