@@ -3,6 +3,8 @@ import App from './App.tsx'
 import './index.css'
 import { Buffer } from 'buffer'
 import sdk from '@farcaster/miniapp-sdk';
+import { ConvexProvider } from "convex/react";
+import { convex } from "@/lib/convex";
 
 // Polyfill Buffer for browser environment (needed for encryption)
 if (typeof globalThis.Buffer === 'undefined') {
@@ -23,8 +25,14 @@ try {
     throw new Error('Root element not found')
   }
   console.log('✅ Root element found')
-  createRoot(rootElement).render(<App />);
-  console.log('✅ React app rendered')
+  
+  createRoot(rootElement).render(
+    <ConvexProvider client={convex}>
+      <App />
+    </ConvexProvider>
+  );
+  
+  console.log('✅ React app rendered with Convex provider')
 } catch (error) {
   console.error('❌ Failed to render app:', error)
 }
