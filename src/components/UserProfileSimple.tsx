@@ -46,7 +46,7 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
     };
   }, [userTracks]);
 
-  const handleTrackPlay = (track: any) => {
+  const handleTrackPlay = (track: { _id: string; title: string; artist: string; [key: string]: unknown }) => {
     if (currentTrack?._id === track._id) {
       if (isPlaying) {
         pauseTrack();
@@ -74,13 +74,13 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
     return `${mins}m`;
   };
 
-  const copyTrackLink = (track: any) => {
+  const copyTrackLink = (track: { _id: string; title: string }) => {
     const url = `${window.location.origin}/#track=${track._id}`;
     navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard");
   };
 
-  const shareToFarcaster = (track: any) => {
+  const shareToFarcaster = (track: { _id: string; title: string; artist: string }) => {
     const url = `${window.location.origin}/#track=${track._id}`;
     const text = `🎵 Check out "${track.title}" by ${track.artist} on SoundProof!\n\n${url}`;
     

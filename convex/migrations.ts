@@ -101,7 +101,7 @@ export const migrateTrackFromLocalStorage = internalMutation({
     }
     
     // Ensure user exists
-    let user = await ctx.db
+    const user = await ctx.db
       .query("users")
       .withIndex("by_fid", (q) => q.eq("fid", uploaderFid))
       .first();

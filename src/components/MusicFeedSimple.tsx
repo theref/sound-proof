@@ -53,7 +53,7 @@ export const MusicFeedSimple = () => {
     ).sort();
   }, [tracks]);
 
-  const handleTrackPlay = (track: any) => {
+  const handleTrackPlay = (track: { _id: string; title: string; artist: string; [key: string]: unknown }) => {
     if (currentTrack?._id === track._id) {
       if (isPlaying) {
         pauseTrack();

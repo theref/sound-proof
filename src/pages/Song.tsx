@@ -15,7 +15,11 @@ interface Track {
   title: string;
   uploader: string;
   cid: string;
-  access_rule: any;
+  access_rule: {
+    type: 'public' | 'erc20' | 'erc721';
+    contractAddress?: string;
+    minBalance?: string;
+  };
   created_at: string;
 }
 

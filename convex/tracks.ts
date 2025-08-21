@@ -249,7 +249,7 @@ export const updateTrack = mutation({
       throw new Error("Not authorized to update this track");
     }
     
-    const updates: any = {
+    const updates: Record<string, unknown> = {
       updatedAt: Date.now(),
     };
     

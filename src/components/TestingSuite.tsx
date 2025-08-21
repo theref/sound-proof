@@ -29,7 +29,7 @@ interface TestResult {
   name: string;
   status: TestStatus;
   message?: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export const TestingSuite = () => {
@@ -37,7 +37,7 @@ export const TestingSuite = () => {
   const [results, setResults] = useState<Record<string, TestResult>>({});
   const [isRunning, setIsRunning] = useState(false);
 
-  const updateTest = (testName: string, status: TestStatus, message?: string, details?: any) => {
+  const updateTest = (testName: string, status: TestStatus, message?: string, details?: Record<string, unknown>) => {
     setResults(prev => ({
       ...prev,
       [testName]: { name: testName, status, message, details }
@@ -247,7 +247,7 @@ export const TestingSuite = () => {
     };
     
     return (
-      <Badge variant={variants[status] as any} className="ml-2">
+      <Badge variant={variants[status] as "default" | "secondary" | "destructive" | "outline"} className="ml-2">
         {status}
       </Badge>
     );
