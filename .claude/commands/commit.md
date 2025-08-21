@@ -34,6 +34,7 @@ Analyze the current git repository state and prepare **atomic commits** - each c
    - Use imperative mood ("add", not "added")
    - Keep first line ≤ 72 characters
    - **Each message describes ONE complete change**
+   - Commits reference issues using `#issue_number` and close those issues if appropriate
 
 4. **Show Atomic Commit Plan** (don't execute until confirmed)
 5. **Execute if Confirmed**
@@ -82,8 +83,8 @@ Use these scopes for SoundProof:
 
 ## Anti-Patterns to Avoid:
 
-❌ **"feat: add auth and fix upload bug"** - mixes feature + fix  
-❌ **"chore: update deps, fix tests, add docs"** - mixes 3 concerns  
+❌ **"feat: add auth and fix upload bug"** - mixes feature + fix
+❌ **"chore: update deps, fix tests, add docs"** - mixes 3 concerns
 ❌ **"refactor: entire component rewrite"** - too large, break into steps
 
 ✅ **Good atomic commits:**
