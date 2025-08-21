@@ -8,9 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Upload, Music, Shield, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { uploadToLighthouse } from "@/services/lighthouseService";
-import { trackStorage, generateTrackId, type StoredTrack } from '@/utils/localStorage';
-import { saveTrackMetadata, createTrackMetadata } from '@/services/ipfsMetadata';
 import { useFarcasterAuth } from '@/hooks/useFarcasterAuth';
+import { useCreateTrack } from '@/hooks/useConvexTracks';
+import { useEnsureUser } from '@/hooks/useConvexUsers';
 
 interface UploadTrackSimpleProps {
   userAddress: string; // FID as string
@@ -24,6 +24,9 @@ const GENRES = [
 
 export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
   const { user } = useFarcasterAuth();
+  const createTrack = useCreateTrack();
+  const { ensureUserExists } = useEnsureUser(user?.fid || null, user?.verifiedAddresses?.[0]);
+  
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [genre, setGenre] = useState("");
@@ -77,14 +80,14 @@ export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
     try {
       console.log("🎵 Starting track upload process...");
       
-      // Generate unique track ID
-      const trackId = generateTrackId();
+      // Ensure user exists in Convex
+      await ensureUserExists();
       
       // Get audio duration
       const duration = await getAudioDuration(audioFile);
       console.log(`✅ Audio duration: ${duration} seconds`);
 
-      // Upload audio file to Lighthouse
+      // Upload audio file to IPFS
       console.log("📤 Uploading audio file to IPFS...");
       const audioUploadResult = await uploadToLighthouse(audioFile);
       const audioCid = audioUploadResult.Hash;
@@ -99,46 +102,26 @@ export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
         console.log(`✅ Cover uploaded to IPFS: ${coverCid}`);
       }
 
-      // Create track data
-      const trackData: StoredTrack = {
-        id: trackId,
+      // Create track in Convex (metadata stored directly, no IPFS metadata upload)
+      console.log("📝 Saving track metadata to Convex...");
+      const trackId = await createTrack({
         title: title.trim(),
         artist: user.displayName || user.username,
-        uploader: user.fid.toString(),
+        uploaderFid: user.fid,
         uploaderUsername: user.username,
         cid: audioCid,
+        coverImageCid: coverCid,
         accessRule: {
           type: accessType === 'public' ? 'public' : 'erc20',
-          // For encrypted tracks, we'll use a simple ERC20 condition
-          // In a full implementation, this would be configurable
           contractAddress: accessType === 'encrypted' ? '0x...' : undefined,
           minBalance: accessType === 'encrypted' ? '1' : undefined,
         },
         duration,
         genre: genre || undefined,
         description: description.trim() || undefined,
-        coverImageCid: coverCid,
         isEncrypted: accessType === 'encrypted',
-        uploadedAt: new Date().toISOString(),
-        playCount: 0,
-      };
-
-      // Create and upload metadata to IPFS
-      console.log("📝 Creating track metadata...");
-      const metadata = createTrackMetadata(trackData, {
-        tags: genre ? [genre.toLowerCase()] : [],
-        socialLinks: {
-          farcaster: `@${user.username}`,
-        },
       });
-
-      const metadataCid = await saveTrackMetadata(metadata);
-      trackData.metadataCid = metadataCid;
-      console.log(`✅ Metadata uploaded to IPFS: ${metadataCid}`);
-
-      // Save track to local storage
-      trackStorage.addUserTrack(trackData);
-      console.log("✅ Track saved to local storage");
+      console.log(`✅ Track created in Convex: ${trackId}`);
 
       // Show success message
       toast.success("Track uploaded successfully!", {
@@ -357,8 +340,8 @@ export const UploadTrackSimple = ({ userAddress }: UploadTrackSimpleProps) => {
           {/* Info */}
           <div className="bg-taco-light-grey p-4 border-2 border-taco-black">
             <p className="taco-ui-text text-taco-dark-grey text-sm">
-              <strong>Note:</strong> Your tracks are stored on IPFS for permanent, decentralized access. 
-              Metadata is saved locally and will be available as long as you use this device.
+              <strong>Note:</strong> Audio files are stored on IPFS for permanent, decentralized access. 
+              Track metadata is stored in our database and syncs across all your devices.
             </p>
           </div>
         </CardContent>

@@ -1,45 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Play, Pause, Search, Music, User, Clock, Hash } from "lucide-react";
-import { trackStorage, type StoredTrack } from '@/utils/localStorage';
-import { searchMetadata } from '@/services/ipfsMetadata';
 import { usePlayback } from '@/contexts/PlaybackContext';
 import { useFarcasterAuth } from '@/hooks/useFarcasterAuth';
+import { useRecentTracks } from '@/hooks/useConvexTracks';
 import { formatCastTimestamp } from '@/integrations/farcaster/utils';
 
 export const MusicFeedSimple = () => {
   const { user } = useFarcasterAuth();
   const { currentTrack, isPlaying, playTrack, pauseTrack } = usePlayback();
-  const [tracks, setTracks] = useState<StoredTrack[]>([]);
-  const [filteredTracks, setFilteredTracks] = useState<StoredTrack[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string>("");
 
-  // Load tracks from local storage
-  useEffect(() => {
-    const loadTracks = () => {
-      const allTracks = trackStorage.getAllTracks();
-      setTracks(allTracks);
-      setFilteredTracks(allTracks);
-    };
+  // Load tracks from Convex with real-time updates
+  const tracks = useRecentTracks(50, user?.fid); // Exclude user's own tracks
 
-    loadTracks();
-
-    // Refresh every 30 seconds to pick up new tracks
-    const interval = setInterval(loadTracks, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Filter tracks based on search and genre
-  useEffect(() => {
+  // Filter tracks based on search and genre (client-side for now)
+  const filteredTracks = useMemo(() => {
+    if (!tracks) return [];
+    
     let filtered = tracks;
 
     // Apply search filter
     if (searchQuery.trim()) {
-      filtered = searchMetadata(filtered, searchQuery);
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(track => 
+        track.title.toLowerCase().includes(query) ||
+        track.artist.toLowerCase().includes(query) ||
+        track.description?.toLowerCase().includes(query) ||
+        track.genre?.toLowerCase().includes(query)
+      );
     }
 
     // Apply genre filter
@@ -49,23 +42,26 @@ export const MusicFeedSimple = () => {
       );
     }
 
-    setFilteredTracks(filtered);
+    return filtered;
   }, [tracks, searchQuery, selectedGenre]);
 
   // Get unique genres from all tracks
-  const availableGenres = Array.from(
-    new Set(tracks.map(track => track.genre).filter(Boolean))
-  ).sort();
+  const availableGenres = useMemo(() => {
+    if (!tracks) return [];
+    return Array.from(
+      new Set(tracks.map(track => track.genre).filter(Boolean))
+    ).sort();
+  }, [tracks]);
 
-  const handleTrackPlay = (track: StoredTrack) => {
-    if (currentTrack?.id === track.id) {
+  const handleTrackPlay = (track: any) => {
+    if (currentTrack?._id === track._id) {
       if (isPlaying) {
         pauseTrack();
       } else {
-        playTrack(track as any); // Type conversion for compatibility
+        playTrack(track);
       }
     } else {
-      playTrack(track as any);
+      playTrack(track);
     }
   };
 
@@ -145,7 +141,14 @@ export const MusicFeedSimple = () => {
 
       {/* Tracks List */}
       <div className="space-y-4">
-        {filteredTracks.length === 0 ? (
+        {!tracks ? (
+          <Card className="border-2 border-taco-black">
+            <CardContent className="p-8 text-center">
+              <Music className="w-12 h-12 text-taco-dark-grey mx-auto mb-4" />
+              <h3 className="taco-subheading text-taco-black mb-2">Loading tracks...</h3>
+            </CardContent>
+          </Card>
+        ) : filteredTracks.length === 0 ? (
           <Card className="border-2 border-taco-black">
             <CardContent className="p-8 text-center">
               <Music className="w-12 h-12 text-taco-dark-grey mx-auto mb-4" />
@@ -162,9 +165,9 @@ export const MusicFeedSimple = () => {
         ) : (
           filteredTracks.map((track) => (
             <Card 
-              key={track.id} 
+              key={track._id} 
               className={`border-2 transition-all hover:shadow-md ${
-                currentTrack?.id === track.id 
+                currentTrack?._id === track._id 
                   ? 'border-brand-orange-500 bg-brand-orange-50' 
                   : 'border-taco-black bg-white'
               }`}
@@ -176,12 +179,12 @@ export const MusicFeedSimple = () => {
                     size="sm"
                     onClick={() => handleTrackPlay(track)}
                     className={`w-12 h-12 rounded-full ${
-                      currentTrack?.id === track.id && isPlaying
+                      currentTrack?._id === track._id && isPlaying
                         ? 'bg-brand-orange-500 hover:bg-brand-orange-600' 
                         : 'bg-taco-black hover:bg-taco-dark-grey'
                     }`}
                   >
-                    {currentTrack?.id === track.id && isPlaying ? (
+                    {currentTrack?._id === track._id && isPlaying ? (
                       <Pause className="w-5 h-5 text-white" />
                     ) : (
                       <Play className="w-5 h-5 text-white" />
@@ -216,7 +219,7 @@ export const MusicFeedSimple = () => {
                               <span>{track.playCount} plays</span>
                             </div>
                           )}
-                          <span>{formatCastTimestamp(track.uploadedAt)}</span>
+                          <span>{formatCastTimestamp(new Date(track.uploadedAt).toISOString())}</span>
                         </div>
 
                         {/* Description */}
@@ -270,7 +273,7 @@ export const MusicFeedSimple = () => {
       </div>
 
       {/* Stats Footer */}
-      {tracks.length > 0 && (
+      {tracks && tracks.length > 0 && (
         <div className="mt-8 text-center">
           <p className="taco-ui-text text-taco-dark-grey">
             Showing {filteredTracks.length} of {tracks.length} tracks

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,9 +15,9 @@ import {
   ExternalLink,
   Copy
 } from "lucide-react";
-import { trackStorage, type StoredTrack, storage } from '@/utils/localStorage';
 import { usePlayback } from '@/contexts/PlaybackContext';
 import { useFarcasterAuth } from '@/hooks/useFarcasterAuth';
+import { useUserTracks } from '@/hooks/useConvexTracks';
 import { formatCastTimestamp } from '@/integrations/farcaster/utils';
 import { toast } from "sonner";
 
@@ -28,46 +28,33 @@ interface UserProfileSimpleProps {
 export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
   const { user } = useFarcasterAuth();
   const { currentTrack, isPlaying, playTrack, pauseTrack } = usePlayback();
-  const [userTracks, setUserTracks] = useState<StoredTrack[]>([]);
-  const [stats, setStats] = useState({
-    totalTracks: 0,
-    totalPlays: 0,
-    totalDuration: 0,
-  });
-
-  // Load user's tracks and stats
-  useEffect(() => {
-    const loadUserData = () => {
-      const tracks = trackStorage.getUserTracks();
-      setUserTracks(tracks);
-
-      // Calculate stats
-      const totalPlays = tracks.reduce((sum, track) => sum + track.playCount, 0);
-      const totalDuration = tracks.reduce((sum, track) => sum + (track.duration || 0), 0);
-      
-      setStats({
-        totalTracks: tracks.length,
-        totalPlays,
-        totalDuration,
-      });
+  
+  // Load user's tracks from Convex with real-time updates
+  const userTracks = useUserTracks(user?.fid || null);
+  
+  // Calculate stats from tracks
+  const stats = useMemo(() => {
+    if (!userTracks) return { totalTracks: 0, totalPlays: 0, totalDuration: 0 };
+    
+    const totalPlays = userTracks.reduce((sum, track) => sum + track.playCount, 0);
+    const totalDuration = userTracks.reduce((sum, track) => sum + (track.duration || 0), 0);
+    
+    return {
+      totalTracks: userTracks.length,
+      totalPlays,
+      totalDuration,
     };
+  }, [userTracks]);
 
-    loadUserData();
-
-    // Refresh every 30 seconds
-    const interval = setInterval(loadUserData, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleTrackPlay = (track: StoredTrack) => {
-    if (currentTrack?.id === track.id) {
+  const handleTrackPlay = (track: any) => {
+    if (currentTrack?._id === track._id) {
       if (isPlaying) {
         pauseTrack();
       } else {
-        playTrack(track as any);
+        playTrack(track);
       }
     } else {
-      playTrack(track as any);
+      playTrack(track);
     }
   };
 
@@ -87,14 +74,14 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
     return `${mins}m`;
   };
 
-  const copyTrackLink = (track: StoredTrack) => {
-    const url = `${window.location.origin}/#track=${track.id}`;
+  const copyTrackLink = (track: any) => {
+    const url = `${window.location.origin}/#track=${track._id}`;
     navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard");
   };
 
-  const shareToFarcaster = (track: StoredTrack) => {
-    const url = `${window.location.origin}/#track=${track.id}`;
+  const shareToFarcaster = (track: any) => {
+    const url = `${window.location.origin}/#track=${track._id}`;
     const text = `🎵 Check out "${track.title}" by ${track.artist} on SoundProof!\n\n${url}`;
     
     // Open Warpcast composer
@@ -103,7 +90,21 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
   };
 
   const exportData = () => {
-    const data = storage.exportData();
+    if (!userTracks) {
+      toast.error("No data to export");
+      return;
+    }
+    
+    const data = {
+      user: {
+        fid: user?.fid,
+        username: user?.username,
+        displayName: user?.displayName,
+      },
+      tracks: userTracks,
+      exportedAt: new Date().toISOString(),
+    };
+    
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
@@ -231,7 +232,14 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
         {/* Tracks Tab */}
         <TabsContent value="tracks" className="mt-6">
           <div className="space-y-4">
-            {userTracks.length === 0 ? (
+            {!userTracks ? (
+              <Card className="border-2 border-taco-black">
+                <CardContent className="p-8 text-center">
+                  <Music className="w-12 h-12 text-taco-dark-grey mx-auto mb-4" />
+                  <h3 className="taco-subheading text-taco-black mb-2">Loading tracks...</h3>
+                </CardContent>
+              </Card>
+            ) : userTracks.length === 0 ? (
               <Card className="border-2 border-taco-black">
                 <CardContent className="p-8 text-center">
                   <Music className="w-12 h-12 text-taco-dark-grey mx-auto mb-4" />
@@ -244,9 +252,9 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
             ) : (
               userTracks.map((track) => (
                 <Card 
-                  key={track.id}
+                  key={track._id}
                   className={`border-2 transition-all ${
-                    currentTrack?.id === track.id 
+                    currentTrack?._id === track._id 
                       ? 'border-brand-orange-500 bg-brand-orange-50' 
                       : 'border-taco-black bg-white'
                   }`}
@@ -258,12 +266,12 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
                         size="sm"
                         onClick={() => handleTrackPlay(track)}
                         className={`w-12 h-12 rounded-full ${
-                          currentTrack?.id === track.id && isPlaying
+                          currentTrack?._id === track._id && isPlaying
                             ? 'bg-brand-orange-500 hover:bg-brand-orange-600' 
                             : 'bg-taco-black hover:bg-taco-dark-grey'
                         }`}
                       >
-                        {currentTrack?.id === track.id && isPlaying ? (
+                        {currentTrack?._id === track._id && isPlaying ? (
                           <Pause className="w-5 h-5 text-white" />
                         ) : (
                           <Play className="w-5 h-5 text-white" />
@@ -287,7 +295,7 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
                             <Hash className="w-3 h-3" />
                             <span>{track.playCount} plays</span>
                           </div>
-                          <span>{formatCastTimestamp(track.uploadedAt)}</span>
+                          <span>{formatCastTimestamp(new Date(track.uploadedAt).toISOString())}</span>
                         </div>
 
                         <div className="flex items-center gap-2 mt-2">
@@ -359,10 +367,10 @@ export const UserProfileSimple = ({ userAddress }: UserProfileSimpleProps) => {
               <div className="p-4 border-2 border-taco-black bg-yellow-50">
                 <h4 className="taco-ui-text font-bold text-taco-black mb-2">Storage Info</h4>
                 <div className="space-y-1 text-sm text-taco-dark-grey">
-                  <p>• Profile data: Stored locally in your browser</p>
-                  <p>• Audio files: Stored on ipfs (permanent)</p>
-                  <p>• Metadata: Stored on ipfs (permanent)</p>
-                  <p>• Clear browser data will reset your local profile</p>
+                  <p>• Profile data: Synced across all your devices</p>
+                  <p>• Audio files: Stored on IPFS (permanent)</p>
+                  <p>• Track metadata: Stored in our database (permanent)</p>
+                  <p>• Your tracks are backed up and accessible anywhere</p>
                 </div>
               </div>
             </CardContent>
